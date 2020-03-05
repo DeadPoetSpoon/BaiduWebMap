@@ -1,0 +1,23 @@
+@media screen{
+#BdMapContainer   {
+	height: 45em;
+	padding-left: 5em;
+
+}
+.panel-body {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.btn-block {
+	margin-bottom: 10px;
+}
+.InfoDiv {
+	margin-top: 10px;
+}
+
+
+
+
+
+
+}
