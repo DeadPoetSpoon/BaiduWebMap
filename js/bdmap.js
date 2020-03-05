@@ -118,7 +118,7 @@ function getTextLocation(myGeoCoder,text) {
 			addMarker(point,text);
 		}else{
             //alert("在武汉市，您选择地址没有解析到结果!");
-            showAlert("danger","失败！","请重新输入正确的位置信息。");
+            showAlert("danger","失败！","<strong>"+text+"</strong>输入错误,请重新输入正确的位置信息。");
 		}
 	},"error");
 }
@@ -146,7 +146,7 @@ $("#Btn_MyLocal").click(function (e) {
     e.preventDefault();
     getCurLocation();
 });
-//添加输入定位按钮点击事件
+//添加输入搜索按钮点击事件
 $("#Btn_SearchLocal").click(function (e) { 
     e.preventDefault();
     var text = $("#SearchLocalCon").val();
@@ -165,4 +165,9 @@ $("#Btn_SearchLocal").click(function (e) {
             getTextLocation(myGeo,textArray[i]);
         }
     }
+});
+//添加清楚地图覆盖物按钮点击事件
+$("#clearOverlay0").click(function (e) { 
+    e.preventDefault();
+    map.clearOverlays();
 });
