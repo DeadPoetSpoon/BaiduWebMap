@@ -104,7 +104,7 @@ function getTextLocation(myGeoCoder,text) {
 		}
 	},"error");
 }
-添加Marker
+//添加Marker
 function addMarker(point,text){
     var marker = new BMap.Marker(point);
     marker.closeInfoWindow()
@@ -285,3 +285,110 @@ $("#Btn_CircleSearch").click(function (e) {
     });    
 });
 //==============================================================================================
+//为步行导航添加自动完成对象
+var acWaldBe = new BMap.Autocomplete(    //建立一个自动完成的对象
+    {"input" : "WalkBeCon"
+    ,"location" : map
+});
+var acWaldFi = new BMap.Autocomplete(    //建立一个自动完成的对象
+    {"input" : "WalkFiCon"
+    ,"location" : map
+});
+acWaldBe.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+	var myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    $("#WalkBeCon").val(myValue);
+});
+acWaldFi.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+	var myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    $("#WalkFiCon").val(myValue);
+});
+//单机按钮事件
+$("#Btn_Walk").click(function (e) { 
+    if($("#WalkBeCon").val().length==0){
+        AlertTool.showAlert("danger","起点输入为空！","<strong>请在输入框输入导航内容。</strong>");
+        return;
+    }
+    if($("#WalkFiCon").val().length==0){
+        AlertTool.showAlert("danger","终点输入为空！","<strong>请在输入框输入导航内容。</strong>");
+        return;
+    }
+    e.preventDefault();
+    map.clearOverlays();
+    var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "Walk-result", autoViewport: true}});
+	walking.search($("#WalkBeCon").val(), $("#WalkFiCon").val());
+});
+//==============================================================================================
+//为驾车导航自动添加自动完成对象
+var acWaldBe = new BMap.Autocomplete(    //建立一个自动完成的对象
+    {"input" : "DrivingBeCon"
+    ,"location" : map
+});
+var acWaldFi = new BMap.Autocomplete(    //建立一个自动完成的对象
+    {"input" : "DrivingFiCon"
+    ,"location" : map
+});
+acWaldBe.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+	var myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    $("#DrivingBeCon").val(myValue);
+});
+acWaldFi.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+	var myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    $("#DrivingFiCon").val(myValue);
+});
+//单机按钮事件
+$("#Btn_Driving").click(function (e) { 
+    if($("#DrivingBeCon").val().length==0){
+        AlertTool.showAlert("danger","起点输入为空！","<strong>请在输入框输入导航内容。</strong>");
+        return;
+    }
+    if($("#DrivingFiCon").val().length==0){
+        AlertTool.showAlert("danger","终点输入为空！","<strong>请在输入框输入导航内容。</strong>");
+        return;
+    }
+    e.preventDefault();
+    map.clearOverlays();
+    var routePolicy = [BMAP_DRIVING_POLICY_LEAST_TIME,BMAP_DRIVING_POLICY_LEAST_DISTANCE,BMAP_DRIVING_POLICY_AVOID_HIGHWAYS];
+    var route = routePolicy[$("#DrivingSelect").val()];
+    var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map,panel: "Driving-result",enableDragging : true, autoViewport: true},policy: route});
+    driving.search($("#DrivingBeCon").val(),$("#DrivingFiCon").val());
+});
+//===================================================================================
+var acWaldBe = new BMap.Autocomplete(    //建立一个自动完成的对象
+    {"input" : "TransitBeCon"
+    ,"location" : map
+});
+var acWaldFi = new BMap.Autocomplete(    //建立一个自动完成的对象
+    {"input" : "TransitFiCon"
+    ,"location" : map
+});
+acWaldBe.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+	var myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    $("#TransitBeCon").val(myValue);
+});
+acWaldFi.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+	var myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    $("#TransitFiCon").val(myValue);
+});
+//单机按钮事件
+$("#Btn_Transit").click(function (e) { 
+    if($("#TransitBeCon").val().length==0){
+        AlertTool.showAlert("danger","起点输入为空！","<strong>请在输入框输入导航内容。</strong>");
+        return;
+    }
+    if($("#TransitFiCon").val().length==0){
+        AlertTool.showAlert("danger","终点输入为空！","<strong>请在输入框输入导航内容。</strong>");
+        return;
+    }
+    e.preventDefault();
+    map.clearOverlays();
+    var routePolicy = [BMAP_TRANSIT_POLICY_LEAST_TIME,BMAP_TRANSIT_POLICY_LEAST_TRANSFER,BMAP_TRANSIT_POLICY_LEAST_WALKING,BMAP_TRANSIT_POLICY_AVOID_SUBWAYS];
+    var route = routePolicy[$("#TransitSelect").val()];
+    var transit = new BMap.TransitRoute(map, {renderOptions:{map: map,panel: "Transit-result",enableDragging : true, autoViewport: true},policy: route});
+    transit.search($("#TransitBeCon").val(),$("#TransitFiCon").val());
+});
