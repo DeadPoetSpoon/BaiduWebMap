@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="bdmap.js" server="47.101.132.134" local="132278651021694165" remote="132278656200000000" Dst="0" />
+<file name="bdmap.js" server="47.101.132.134" local="132279631975713597" remote="132282090600000000" Dst="0" />
 <file name="lazyLoad.js" server="47.101.132.134" local="132277984090474662" remote="132278037600000000" Dst="0" />
-<file name="showAlert.js" server="47.101.132.134" local="132278544335246434" remote="132278656200000000" Dst="0" />
+<file name="showAlert.js" server="47.101.132.134" local="132279589370735328" remote="132282090600000000" Dst="0" />
+<file name="drawtool.js" server="47.101.132.134" local="132279630517385327" remote="132282090600000000" Dst="0" />
 </dwsync>
