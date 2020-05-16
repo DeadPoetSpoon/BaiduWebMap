@@ -374,22 +374,111 @@
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<a class="panel-title" data-toggle="collapse" data-parent="#panel-96365"
-											href="#panel-element-172923">Collapsible Group Item #1</a>
+											href="#panel-element-172923">画点</a>
 									</div>
 									<div id="panel-element-172923" class="panel-collapse collapse">
 										<div class="panel-body">
-											Anim pariatur cliche...
+											<div class="row clearfix">
+												<div class="col-md-12 column ">
+												<form role="form">
+													<div class="form-group">
+													<label for="name">GeoJson</label>
+													<textarea class="form-control" rows="12" id="Point_GeoJson" readonly></textarea>
+													<label for="name">格式:ObjNum,PropName,Prop(省略ObjNum默认最后一个),分号隔开多个</label>
+													<input type="text" class="form-control" id="Point_Prop" placeholder="4,Name,China或Name,China" />
+													</div>
+												</form>
+												<div class="btn-group">
+													<button type="button" class="btn btn-primary btn-default" id="Point_Start">开始</button>
+													<button type="button" class="btn btn-primary btn-default" id="Point_Stop">结束</button>
+													<button type="button" class="btn btn-primary btn-default" id="Point_AddProp">添加属性</button>
+													<!-- <input type="button" class="btn btn-primary btn-default" id="Point_Save" value="保存到本地"/> -->
+												</div>
+												<div class="row clearfix">
+													<div class="col-md-12 column">
+														<div class="input-group">
+															<input type="text" class="form-control" id="Point_SaveName"	placeholder="请输入文件名(poi/poi.json)" />
+															<span class="input-group-btn"><button type="button" class="btn btn-primary btn-default" id="Point_Save">保存到本地</button>
+															</span>
+														</div>
+													</div>
+												</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<a class="panel-title" data-toggle="collapse" data-parent="#panel-96365"
-											href="#panel-element-467949">Collapsible Group Item #2</a>
+											href="#panel-element-467949">画线</a>
 									</div>
 									<div id="panel-element-467949" class="panel-collapse collapse">
 										<div class="panel-body">
-											Anim pariatur cliche...
+											<div class="row clearfix">
+												<div class="col-md-12 column ">
+												<form role="form">
+													<div class="form-group">
+													<label for="name">GeoJson</label>
+													<textarea class="form-control" rows="11" id="PolyLine_GeoJson" readonly></textarea>
+													<label for="name">格式:ObjNum,PropName,Prop(省略ObjNum默认最后一个),分号隔开多个</label>
+													<input type="text" class="form-control" id="PolyLine_Prop" placeholder="4,Name,China或Name,China" />
+													</div>
+												</form>
+												<div class="btn-group">
+													<button type="button" class="btn btn-primary btn-default" id="PolyLine_Start">开始</button>
+													<button type="button" class="btn btn-primary btn-default" id="PolyLine_Stop">结束</button>
+													<button type="button" class="btn btn-primary btn-default" id="PolyLine_AddProp">添加属性</button>
+													<!-- <input type="button" class="btn btn-primary btn-default" id="Point_Save" value="保存到本地"/> -->
+												</div>
+												<div class="row clearfix">
+													<div class="col-md-12 column">
+														<div class="input-group">
+															<input type="text" class="form-control" id="PolyLine_SaveName"	placeholder="请输入文件名(road/road.json)" />
+															<span class="input-group-btn"><button type="button" class="btn btn-primary btn-default" id="PolyLine_Save">保存到本地</button>
+															</span>
+														</div>
+													</div>
+												</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<a class="panel-title" data-toggle="collapse" data-parent="#panel-96365"
+											href="#panel-element-467948">画面</a>
+									</div>
+									<div id="panel-element-467948" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div class="row clearfix">
+												<div class="col-md-12 column ">
+												<form role="form">
+													<div class="form-group">
+													<label for="name">GeoJson</label>
+													<textarea class="form-control" rows="11" id="Polygon_GeoJson" readonly></textarea>
+													<label for="name">格式:ObjNum,PropName,Prop(省略ObjNum默认最后一个),分号隔开多个</label>
+													<input type="text" class="form-control" id="Polygon_Prop" placeholder="4,Name,China或Name,China" />
+													</div>
+												</form>
+												<div class="btn-group">
+													<button type="button" class="btn btn-primary btn-default" id="Polygon_Start">开始</button>
+													<button type="button" class="btn btn-primary btn-default" id="Polygon_Stop">结束</button>
+													<button type="button" class="btn btn-primary btn-default" id="Polygon_AddProp">添加属性</button>
+													<!-- <input type="button" class="btn btn-primary btn-default" id="Point_Save" value="保存到本地"/> -->
+												</div>
+												<div class="row clearfix">
+													<div class="col-md-12 column">
+														<div class="input-group">
+															<input type="text" class="form-control" id="Polygon_SaveName"	placeholder="请输入文件名(building/building.json)" />
+															<span class="input-group-btn"><button type="button" class="btn btn-primary btn-default" id="Polygon_Save">保存到本地</button>
+															</span>
+														</div>
+													</div>
+												</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -466,6 +555,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="js/FileSaver.js"></script>
 	<script src="js/bdmap.js" type="module"></script>
 </body>
 

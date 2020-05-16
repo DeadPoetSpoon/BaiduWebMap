@@ -1,5 +1,7 @@
 import AlertTool from './showAlert.js';
 import DrawTool from './drawtool.js';
+import GeoJsonTool from './geojsontool.js';
+
 //显示欢迎信息,*并在10秒后删除*
 AlertTool.showAlert("info","欢迎！",'这是基于<a href="http://lbsyun.baidu.com/" class="alert-link"><strong>百度API</strong></a>简单实现的WebGIS网页。');
 // setTimeout(function () {
@@ -45,7 +47,7 @@ function initMap() {
     map.addControl(overViewOpen);      //右下角，打开
     //启用滚轮
     map.enableScrollWheelZoom(true);
-    getCurLocation();
+    //getCurLocation();
 }
 //获得当前位置
 function getCurLocation() {
@@ -391,4 +393,187 @@ $("#Btn_Transit").click(function (e) {
     var route = routePolicy[$("#TransitSelect").val()];
     var transit = new BMap.TransitRoute(map, {renderOptions:{map: map,panel: "Transit-result",enableDragging : true, autoViewport: true},policy: route});
     transit.search($("#TransitBeCon").val(),$("#TransitFiCon").val());
+});
+//=======================================================================================
+//目标计数器
+var objNum=0;
+//======================================================================================
+//画点
+$("#Point_Start").click(function (e) { 
+    e.preventDefault();
+    if(objNum != 0){
+        AlertTool.showAlert("danger","编辑未完成!","<strong>请先完成上一项编辑内容。</strong>");
+        return;
+    }
+    map.clearOverlays();
+    //新建一个GeoJson对象
+    var geoJsonTool = new GeoJsonTool();
+    //设置模式会绘制矩形
+    drawtool.setMode(BMAP_DRAWING_MARKER);
+    drawtool.open();
+    AlertTool.showAlert("info","请绘制点","鼠标点击来绘制。");
+    drawtool.addListener('markercomplete',function (point) {
+        geoJsonTool.addPoint(point.getPosition(),{ObjNum:objNum++});
+        geoJsonTool.showJson("#Point_GeoJson");
+    });
+    $("#Point_Save").click(function (e) { 
+        e.preventDefault();
+        if($("#Point_SaveName").val().length==0){
+            AlertTool.showAlert("danger","文件名输入为空！","<strong>请在输入框输入文件名。</strong>");
+            return;
+        }
+        geoJsonTool.saveJson($("#Point_SaveName").val());
+    });
+    $("#Point_AddProp").click(function (e) { 
+        e.preventDefault();
+        if($("#Point_Prop").val().length==0){
+            AlertTool.showAlert("danger","属性值输入为空！","<strong>请在输入框输入属性值。</strong>");
+            return;
+        }
+        var props = $("#Point_Prop").val().split(';');
+        for(var i=0;i<props.length;i++){
+            var strs =  props[i].split(',');
+            if(strs.length < 2 || strs.length > 3){
+                AlertTool.showAlert("danger","属性值输入错误！","<strong>"+props[i]+"输入错误。</strong>");
+            }else if(strs.length == 2){
+                geoJsonTool.addProperties(-1,strs[0],strs[1]);
+            }else if(strs.length == 3){
+                geoJsonTool.addProperties(parseInt(strs[0]),strs[1],strs[2]);
+            }
+        }
+        geoJsonTool.showJson("#Point_GeoJson");
+    });
+    $("#Point_Stop").click(function (e) { 
+        e.preventDefault();
+        objNum = 0;
+        drawtool.close();
+        map.clearOverlays();
+        AlertTool.popAlert(2);
+    });
+});
+//======================================================================================
+//画线
+$("#PolyLine_Start").click(function (e) { 
+    e.preventDefault();
+    if(objNum != 0){
+        AlertTool.showAlert("danger","编辑未完成!","<strong>请先完成上一项编辑内容。</strong>");
+        return;
+    }
+    //清除覆盖物及禁用双击放大
+    map.clearOverlays();
+    map.disableDoubleClickZoom();
+    //新建一个GeoJson对象
+    var geoJsonTool = new GeoJsonTool();
+    //设置模式会绘制矩形
+    drawtool.setMode(BMAP_DRAWING_POLYLINE);
+    drawtool.open();
+    AlertTool.showAlert("info","请绘制线","鼠标点击来绘制,双击结束线的绘制,再次单击开始绘制下一条线。");
+    drawtool.addListener('polylinecomplete',function (polyline) {
+        geoJsonTool.addPolyline(polyline.getPath(),{ObjNum:objNum++});
+        geoJsonTool.showJson("#PolyLine_GeoJson");
+    });
+    $("#PolyLine_Save").click(function (e) { 
+        e.preventDefault();
+        if($("#PolyLine_SaveName").val().length==0){
+            AlertTool.showAlert("danger","文件名输入为空！","<strong>请在输入框输入文件名。</strong>");
+            return;
+        }
+        geoJsonTool.saveJson($("#PolyLine_SaveName").val());
+    });
+    function setPolylineMode (){
+        drawtool.setMode(BMAP_DRAWING_POLYLINE);
+        drawtool.open();
+    }
+    map.addEventListener("click",setPolylineMode);
+    $("#PolyLine_AddProp").click(function (e) { 
+        e.preventDefault();
+        if($("#PolyLine_Prop").val().length==0){
+            AlertTool.showAlert("danger","属性值输入为空！","<strong>请在输入框输入属性值。</strong>");
+            return;
+        }
+        var props = $("#PolyLine_Prop").val().split(';');
+        for(var i=0;i<props.length;i++){
+            var strs =  props[i].split(',');
+            if(strs.length < 2 || strs.length > 3){
+                AlertTool.showAlert("danger","属性值输入错误！","<strong>"+props[i]+"输入错误。</strong>");
+            }else if(strs.length == 2){
+                geoJsonTool.addProperties(-1,strs[0],strs[1]);
+            }else if(strs.length == 3){
+                geoJsonTool.addProperties(parseInt(strs[0]),strs[1],strs[2]);
+            }
+        }
+        geoJsonTool.showJson("#PolyLine_GeoJson");
+    });
+    $("#PolyLine_Stop").click(function (e) { 
+        e.preventDefault();
+        objNum = 0;
+        drawtool.close();
+        map.clearOverlays();
+        map.enableDoubleClickZoom();
+        map.removeEventListener("click",setPolylineMode);
+        AlertTool.popAlert(2);
+    });
+});
+//======================================================================================
+//画面
+$("#Polygon_Start").click(function (e) { 
+    e.preventDefault();
+    if(objNum != 0){
+        AlertTool.showAlert("danger","编辑未完成!","<strong>请先完成上一项编辑内容。</strong>");
+        return;
+    }
+    //清除覆盖物及禁用双击放大
+    map.clearOverlays();
+    map.disableDoubleClickZoom();
+    //新建一个GeoJson对象
+    var geoJsonTool = new GeoJsonTool();
+    //设置模式会绘制矩形
+    drawtool.setMode(BMAP_DRAWING_POLYGON);
+    drawtool.open();
+    AlertTool.showAlert("info","请绘制面","鼠标点击来绘制,双击结束面的绘制,再次单击开始绘制下一个面。");
+    drawtool.addListener('polygoncomplete',function (polygon) {
+        geoJsonTool.addPolygon(polygon.getPath(),{ObjNum:objNum++});
+        geoJsonTool.showJson("#Polygon_GeoJson");
+    });
+    $("#Polygon_Save").click(function (e) { 
+        e.preventDefault();
+        if($("#Polygon_SaveName").val().length==0){
+            AlertTool.showAlert("danger","文件名输入为空！","<strong>请在输入框输入文件名。</strong>");
+            return;
+        }
+        geoJsonTool.saveJson($("#Polygon_SaveName").val());
+    });
+    function setPolygonMode () { 
+        drawtool.setMode(BMAP_DRAWING_POLYGON);
+        drawtool.open();
+    }
+    map.addEventListener("click",setPolygonMode);
+    $("#Polygon_AddProp").click(function (e) { 
+        e.preventDefault();
+        if($("#Polygon_Prop").val().length==0){
+            AlertTool.showAlert("danger","属性值输入为空！","<strong>请在输入框输入属性值。</strong>");
+            return;
+        }
+        var props = $("#Polygon_Prop").val().split(';');
+        for(var i=0;i<props.length;i++){
+            var strs =  props[i].split(',');
+            if(strs.length < 2 || strs.length > 3){
+                AlertTool.showAlert("danger","属性值输入错误！","<strong>"+props[i]+"输入错误。</strong>");
+            }else if(strs.length == 2){
+                geoJsonTool.addProperties(-1,strs[0],strs[1]);
+            }else if(strs.length == 3){
+                geoJsonTool.addProperties(parseInt(strs[0]),strs[1],strs[2]);
+            }
+        }
+        geoJsonTool.showJson("#Polygon_GeoJson");
+    });
+    $("#Polygon_Stop").click(function (e) { 
+        e.preventDefault();
+        objNum = 0;
+        drawtool.close();
+        map.clearOverlays();
+        map.enableDoubleClickZoom();
+        map.removeEventListener("click",setPolygonMode);
+        AlertTool.popAlert(2);
+    });
 });
