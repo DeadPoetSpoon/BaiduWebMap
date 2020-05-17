@@ -423,6 +423,7 @@ $("#Point_Start").click(function (e) {
             return;
         }
         geoJsonTool.saveJson($("#Point_SaveName").val());
+        AlertTool.showAlert("success","保存成功!","注意GeoJson文件坐标系为百度BD09坐标");
     });
     $("#Point_AddProp").click(function (e) { 
         e.preventDefault();
@@ -479,6 +480,7 @@ $("#PolyLine_Start").click(function (e) {
             return;
         }
         geoJsonTool.saveJson($("#PolyLine_SaveName").val());
+        AlertTool.showAlert("success","保存成功!","注意GeoJson文件坐标系为百度BD09坐标");
     });
     function setPolylineMode (){
         drawtool.setMode(BMAP_DRAWING_POLYLINE);
@@ -542,6 +544,7 @@ $("#Polygon_Start").click(function (e) {
             return;
         }
         geoJsonTool.saveJson($("#Polygon_SaveName").val());
+        AlertTool.showAlert("success","保存成功!","注意GeoJson文件坐标系为百度BD09坐标");
     });
     function setPolygonMode () { 
         drawtool.setMode(BMAP_DRAWING_POLYGON);

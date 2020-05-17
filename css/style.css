@@ -1,8 +1,12 @@
 @media screen{
 #BdMapContainer   {
-	height: 45em;
+	height: 46em;
 	padding-left: 5em;
 
+}
+#EchartsContainer{
+	height: 52em;
+	padding-left: 5em;
 }
 .panel-body {
 	padding-top: 10px;
